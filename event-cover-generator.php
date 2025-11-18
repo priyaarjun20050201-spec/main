@@ -2872,6 +2872,7 @@ echo '<script>console.log("ECG Final: Security validation failed for token");</s
 // No shared data was found for this token. Log a clear message for debugging.
 echo '<script>console.log("ECG Final: No shared data found for token: ' . esc_js($token) . ' - link may have expired");</script>';
 }
+}
 } else {
 echo '<script>console.log("ECG Final: Invalid token format");</script>';
 }
