@@ -2846,36 +2846,35 @@ ob_start();
 <?php
 // Check for shared data and inject it into the page with enhanced security
 if (isset($_GET['ecg_token'])) {
-$token = sanitize_text_field($_GET['ecg_token']);
-// Validate token format
-if (preg_match('/^[a-zA-Z0-9]{20}$/', $token)) {
-$sharedData = get_transient('ecg_share_' . $token);
-if ($sharedData && is_array($sharedData)) {
-$valid = true;
-// If a security_hash is present (from v3.2 and later), verify it. Older data
-// will simply skip this check and be considered valid.
-if (isset($sharedData['security_hash'])) {
-if ($sharedData['security_hash'] !== wp_hash($sharedData['image'] . $token)) {
-$valid = false;
-}
-unset($sharedData['security_hash']);
-}
-if ($valid) {
-// Remove sensitive data
-unset($sharedData['creator_ip']);
-unset($sharedData['creator_user_agent']);
-echo '<script>window.ecg_shared_data = ' . wp_json_encode($sharedData) . ';</script>';
-} else {
-echo '<script>console.log("ECG Final: Security validation failed for token");</script>';
-}
-} else {
-// No shared data was found for this token. Log a clear message for debugging.
-echo '<script>console.log("ECG Final: No shared data found for token: ' . esc_js($token) . ' - link may have expired");</script>';
-}
-}
-} else {
-echo '<script>console.log("ECG Final: Invalid token format");</script>';
-}
+    $token = sanitize_text_field($_GET['ecg_token']);
+    // Validate token format
+    if (preg_match('/^[a-zA-Z0-9]{20}$/', $token)) {
+        $sharedData = get_transient('ecg_share_' . $token);
+        if ($sharedData && is_array($sharedData)) {
+            $valid = true;
+            // If a security_hash is present (from v3.2 and later), verify it. Older data
+            // will simply skip this check and be considered valid.
+            if (isset($sharedData['security_hash'])) {
+                if ($sharedData['security_hash'] !== wp_hash($sharedData['image'] . $token)) {
+                    $valid = false;
+                }
+                unset($sharedData['security_hash']);
+            }
+            if ($valid) {
+                // Remove sensitive data
+                unset($sharedData['creator_ip']);
+                unset($sharedData['creator_user_agent']);
+                echo '<script>window.ecg_shared_data = ' . wp_json_encode($sharedData) . ';</script>';
+            } else {
+                echo '<script>console.log("ECG Final: Security validation failed for token");</script>';
+            }
+        } else {
+            // No shared data was found for this token. Log a clear message for debugging.
+            echo '<script>console.log("ECG Final: No shared data found for token: ' . esc_js($token) . ' - link may have expired");</script>';
+        }
+    } else {
+        echo '<script>console.log("ECG Final: Invalid token format");</script>';
+    }
 }
 
 return ob_get_clean();
