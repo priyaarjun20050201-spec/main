@@ -1366,7 +1366,7 @@ init();
 }
 })();
 JS'
-));
+);
 
 wp_enqueue_script('ecg-final-js');
 
@@ -2359,7 +2359,7 @@ input[type="file"] {
 display: none;
 }
 CSS'
-));
+);
 }
 add_action('wp_enqueue_scripts', 'ecg_final_enqueue_scripts');
 
