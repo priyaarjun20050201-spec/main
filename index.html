@@ -3,17 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nigerian Accent Text-to-Speech</title>
+    <title>Bitlink - URL Shortener</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
-        <h1>Nigerian Accent Text-to-Speech</h1>
-        <p class="subtitle">Enter text to hear it in a natural Nigerian-accented English voice.</p>
-        <textarea id="text-input" placeholder="Enter English text here..."></textarea>
-        <div class="controls">
-            <button id="speak-btn">Speak</button>
-        </div>
+        <header>
+            <div class="logo">Bitlink</div>
+            <p class="tagline">Shorten your links, expand your reach.</p>
+        </header>
+
+        <main>
+            <div class="input-group">
+                <input type="url" id="url-input" placeholder="Paste your long link here..." required>
+                <button id="shorten-btn">Shorten It!</button>
+            </div>
+
+            <div id="result-container" class="hidden">
+                <div class="result-item">
+                    <span id="original-link" class="original-link"></span>
+                    <div class="short-link-group">
+                        <a href="#" id="short-link" class="short-link" target="_blank"></a>
+                        <button id="copy-btn">Copy</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="error-message" class="error-message hidden"></div>
+        </main>
+
+        <footer>
+            <p>&copy; 2024 Bitlink. Simple & Fast.</p>
+        </footer>
     </div>
     <script src="script.js"></script>
 </body>

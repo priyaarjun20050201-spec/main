@@ -1,73 +1,79 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const speakBtn = document.getElementById('speak-btn');
-    const textInput = document.getElementById('text-input');
+    const urlInput = document.getElementById('url-input');
+    const shortenBtn = document.getElementById('shorten-btn');
+    const resultContainer = document.getElementById('result-container');
+    const originalLinkSpan = document.getElementById('original-link');
+    const shortLinkAnchor = document.getElementById('short-link');
+    const copyBtn = document.getElementById('copy-btn');
+    const errorMessage = document.getElementById('error-message');
 
-    // This is the realistic, albeit hypothetical, API endpoint for YarnGPT.
-    const YARNGPT_API_ENDPOINT = 'https://api.yarngpt.co/v1/tts';
+    shortenBtn.addEventListener('click', shortenUrl);
 
-    speakBtn.addEventListener('click', async () => {
-        const text = textInput.value.trim();
-        if (text === '') {
-            alert('Please enter some text to speak.');
-            return;
-        }
-
-        speakBtn.textContent = 'Generating...';
-        speakBtn.disabled = true;
-
-        try {
-            const response = await fetch(YARNGPT_API_ENDPOINT, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    text: text,
-                    voice: 'idera', // A default female voice from YarnGPT
-                    lang: 'english',
-                }),
-            });
-
-            if (!response.ok) {
-                throw new Error(`API request failed with status ${response.status}. Please try again.`);
-            }
-
-            const result = await response.json();
-            const audioUrl = result.audio_url;
-
-            if (!audioUrl) {
-                throw new Error('API did not return an audio URL.');
-            }
-
-            playAudio(audioUrl);
-
-        } catch (error) {
-            console.error('TTS Error:', error);
-            // Since this is a hypothetical API, we'll fall back to the mock for demonstration.
-            alert("This is a demo. Playing a sample Nigerian-accented audio.");
-            playAudio('https://upload.wikimedia.org/wikipedia/commons/2/21/En-us-Nigeria.ogg');
+    // Allow pressing Enter to submit
+    urlInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            shortenUrl();
         }
     });
 
-    function playAudio(audioUrl) {
-        const audio = new Audio(audioUrl);
+    copyBtn.addEventListener('click', () => {
+        const shortUrl = shortLinkAnchor.href;
+        navigator.clipboard.writeText(shortUrl).then(() => {
+            copyBtn.textContent = 'Copied!';
+            copyBtn.classList.add('copied');
+            setTimeout(() => {
+                copyBtn.textContent = 'Copy';
+                copyBtn.classList.remove('copied');
+            }, 2000);
+        }).catch(err => {
+            console.error('Failed to copy: ', err);
+        });
+    });
 
-        audio.onplay = () => {
-            speakBtn.textContent = 'Playing...';
-            speakBtn.disabled = true;
-        };
+    async function shortenUrl() {
+        const originalUrl = urlInput.value.trim();
 
-        audio.onended = () => {
-            speakBtn.textContent = 'Speak';
-            speakBtn.disabled = false;
-        };
+        // Reset UI
+        errorMessage.classList.add('hidden');
+        urlInput.classList.remove('error');
+        resultContainer.classList.add('hidden');
 
-        audio.onerror = () => {
-            alert('Could not play the audio file.');
-            speakBtn.textContent = 'Speak';
-            speakBtn.disabled = false;
-        };
+        if (!originalUrl) {
+            showError('Please add a link');
+            return;
+        }
 
-        audio.play();
+        try {
+            const response = await fetch('/api/shorten', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ originalUrl })
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || 'Something went wrong');
+            }
+
+            displayResult(originalUrl, data.shortUrl);
+        } catch (error) {
+            showError(error.message);
+        }
+    }
+
+    function displayResult(original, short) {
+        originalLinkSpan.textContent = original;
+        shortLinkAnchor.textContent = short;
+        shortLinkAnchor.href = short;
+        resultContainer.classList.remove('hidden');
+    }
+
+    function showError(message) {
+        errorMessage.textContent = message;
+        errorMessage.classList.remove('hidden');
+        urlInput.classList.add('error');
     }
 });
