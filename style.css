@@ -1,80 +1,182 @@
+:root {
+    --primary-color: #2ac6b8; /* Cyan-ish */
+    --secondary-color: #3b3054; /* Dark Violet */
+    --background-color: #eff1f7;
+    --text-color: #9e9aa7;
+    --dark-text: #34313d;
+    --error-color: #f46262;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
 body {
-    font-family: sans-serif;
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--background-color);
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    margin: 0;
-    background-color: #f0f0f0;
+    min-height: 100vh;
+    color: var(--dark-text);
 }
 
 .container {
-    background-color: white;
+    width: 90%;
+    max-width: 800px;
+    background: white;
     padding: 2rem;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
     text-align: center;
 }
 
-h1 {
-    margin-bottom: 0.5rem;
+header {
+    margin-bottom: 2rem;
 }
 
-.subtitle {
-    margin-bottom: 1.5rem;
-    color: #666;
+.logo {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--secondary-color);
 }
 
-textarea {
-    width: 100%;
-    height: 150px;
-    margin-bottom: 1rem;
-    padding: 0.5rem;
-    border: 1px solid #ccc;
+.tagline {
+    color: var(--text-color);
+    font-size: 1.1rem;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+@media (min-width: 600px) {
+    .input-group {
+        flex-direction: row;
+    }
+}
+
+input[type="url"] {
+    flex: 1;
+    padding: 1rem;
+    border: 2px solid transparent; /* default border */
     border-radius: 5px;
     font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s;
+    background-color: #f0f1f6;
 }
 
-.controls {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+input[type="url"]:focus {
+    border-color: var(--primary-color);
 }
 
-select, button {
-    padding: 0.8rem 1.5rem;
+input[type="url"].error {
+    border-color: var(--error-color);
+    color: var(--error-color);
+}
+
+input[type="url"].error::placeholder {
+    color: var(--error-color);
+    opacity: 0.7;
+}
+
+
+button {
+    padding: 1rem 2rem;
+    background-color: var(--primary-color);
+    color: white;
     border: none;
     border-radius: 5px;
     font-size: 1rem;
+    font-weight: 700;
     cursor: pointer;
-}
-
-button {
-    background-color: #007bff;
-    color: white;
+    transition: background-color 0.3s;
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: #5edcd0; /* lighter cyan */
 }
 
-button:disabled {
-    background-color: #cccccc;
-    cursor: not-allowed;
+.hidden {
+    display: none;
 }
 
-@media (max-width: 600px) {
-    .container {
-        width: 90%;
-        padding: 1.5rem;
-    }
+#result-container {
+    margin-top: 2rem;
+    text-align: left;
+    background-color: #f0f1f6;
+    border-radius: 5px;
+    padding: 1rem;
+}
 
-    .controls {
-        flex-direction: column;
-    }
+.result-item {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+}
 
-    select, button {
-        width: 100%;
-        margin-top: 0.5rem;
+@media (min-width: 600px) {
+    .result-item {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
     }
+}
+
+.original-link {
+    color: var(--secondary-color);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+.short-link-group {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    justify-content: space-between;
+}
+
+@media (min-width: 600px) {
+    .short-link-group {
+        width: auto;
+        justify-content: flex-end;
+    }
+}
+
+.short-link {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+#copy-btn {
+    padding: 0.5rem 1.5rem;
+    font-size: 0.9rem;
+    min-width: 80px;
+}
+
+#copy-btn.copied {
+    background-color: var(--secondary-color);
+}
+
+.error-message {
+    color: var(--error-color);
+    margin-top: 1rem;
+    font-style: italic;
+}
+
+footer {
+    margin-top: 3rem;
+    font-size: 0.8rem;
+    color: var(--text-color);
 }
