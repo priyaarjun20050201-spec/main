@@ -1,0 +1,73 @@
+#yarngpt-wrapper .yarngpt-container {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+    font-family: sans-serif;
+}
+
+#yarngpt-wrapper .yarngpt-title {
+    margin-bottom: 0.5rem;
+}
+
+#yarngpt-wrapper .yarngpt-subtitle {
+    margin-bottom: 1.5rem;
+    color: #666;
+}
+
+#yarngpt-wrapper .yarngpt-textarea {
+    width: 100%;
+    height: 150px;
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    box-sizing: border-box; /* Ensure padding doesn't affect width */
+}
+
+#yarngpt-wrapper .yarngpt-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#yarngpt-wrapper .yarngpt-button {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    transition: background-color 0.2s;
+}
+
+#yarngpt-wrapper .yarngpt-button:hover {
+    background-color: #0056b3;
+}
+
+#yarngpt-wrapper .yarngpt-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    #yarngpt-wrapper .yarngpt-container {
+        width: 90%;
+        padding: 1.5rem;
+    }
+
+    #yarngpt-wrapper .yarngpt-controls {
+        flex-direction: column;
+    }
+
+    #yarngpt-wrapper .yarngpt-button {
+        width: 100%;
+        margin-top: 0.5rem;
+    }
+}
